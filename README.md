@@ -220,30 +220,37 @@ Practical takeaway:
 ## Repository Structure
 
 ```text
-p4/
-  federated_learning.p4
-  federated_learning_in_network.p4
-  switch-commands.txt
-  switch-commands-in-network.txt
-src/
-  worker/
-    worker.py
-    worker_in_network.py
-  protocol/
-    layers.py
-    layers_in_network.py
-  ml/
-    model.py
-    data_loader.py
-scripts/
-  plot_packets_per_epoch.py
-  plot_baseline_vs_innet_packets.py
-p4app.json
-p4app_in_network.json
-results/
-  packets_per_epoch.png
-  packets_per_epoch_innet.png
-  baseline_vs_innet_packets_per_epoch.png
+Federated-Learning-P4/
+├── p4/
+│   ├── federated_learning.p4                  
+│   ├── federated_learning_in_network.p4       
+│   ├── switch-commands.txt                    
+│   └── switch-commands-in-network.txt         
+├── src/
+│   ├── worker/
+│   │   ├── worker.py                          
+│   │   └── worker_in_network.py               
+│   ├── protocol/
+│   │   ├── layers.py                          
+│   │   └── layers_in_network.py               
+│   ├── ml/
+│   │   ├── model.py                           
+│   │   └── data_loader.py                     
+│   ├── config/
+│   │   ├── config.json                        
+│   │   └── config.py                          
+│   └── utils/
+│       ├── network.py                         
+│       └── tracker.py                         
+├── scripts/
+│   ├── plot_packets_per_epoch.py              
+│   └── plot_baseline_vs_innet_packets.py      
+├── p4app.json                                 
+├── p4app_in_network.json                      
+└── results/
+    ├── packets_per_epoch.png
+    ├── packets_per_epoch_innet.png
+    └── baseline_vs_innet_packets_per_epoch.png
 ```
 
 ## License
