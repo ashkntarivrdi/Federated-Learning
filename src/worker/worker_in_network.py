@@ -111,20 +111,20 @@ class WorkerInNetwork:
             if self.expected_total_chunks > 0 and len(self.received_chunks) == self.expected_total_chunks:
                 ordered = [self.received_chunks[i] for i in range(self.expected_total_chunks)]
                 self.model.set_weights(np.concatenate(ordered).astype(np.float32))
-                print(
-                    f"Round {self.current_round + 1}: received all aggregated chunks "
-                    f"({len(self.received_chunks)}/{self.expected_total_chunks} chunks)"
-                )
+                # print(
+                #     f"Round {self.current_round + 1}: received all aggregated chunks "
+                #     f"({len(self.received_chunks)}/{self.expected_total_chunks} chunks)"
+                # )
                 self.received_event.set()
 
     def send_model_weights(self):
         weights = self.model.get_weights()
         total_chunks = int(np.ceil(weights.size / CHUNK_SIZE))
         total_packets = total_chunks
-        print(
-            f"Round {self.current_round + 1}: sending {total_chunks} chunks to switch, "
-            f"total_packets={total_packets}"
-        )
+        # print(
+        #     f"Round {self.current_round + 1}: sending {total_chunks} chunks to switch, "
+        #     f"total_packets={total_packets}"
+        # )
 
         dst_ip = "10.0.1.254"
 
@@ -195,7 +195,7 @@ class WorkerInNetwork:
         self.results_tracker.add_round_results(self.current_round, loss, train_acc)
         print(f"Round {self.current_round + 1} - Pre-aggregation training accuracy: {train_acc:.4f}")
 
-        print(f"Round {self.current_round + 1}: waiting {PRE_SEND_BARRIER_SEC}s barrier before send")
+        # print(f"Round {self.current_round + 1}: waiting {PRE_SEND_BARRIER_SEC}s barrier before send")
         time.sleep(PRE_SEND_BARRIER_SEC)
         self.send_model_weights()
         print("Waiting for in-network aggregated model from switch...")
