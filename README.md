@@ -12,6 +12,42 @@ Core requirement implemented in both methods:
 - model updates are sent in **chunks** (not one large packet)
 - communication uses a custom EtherType: `0x1234`
 
+## Structure
+
+```text
+Federated-Learning-P4/
+├── p4/
+│   ├── federated_learning.p4                  
+│   ├── federated_learning_in_network.p4       
+│   ├── switch-commands.txt                    
+│   └── switch-commands-in-network.txt         
+├── src/
+│   ├── worker/
+│   │   ├── worker.py                          
+│   │   └── worker_in_network.py               
+│   ├── protocol/
+│   │   ├── layers.py                          
+│   │   └── layers_in_network.py               
+│   ├── ml/
+│   │   ├── model.py                           
+│   │   └── data_loader.py                     
+│   ├── config/
+│   │   ├── config.json                        
+│   │   └── config.py                          
+│   └── utils/
+│       ├── network.py                         
+│       └── tracker.py                         
+├── scripts/
+│   ├── plot_packets_per_epoch.py              
+│   └── plot_baseline_vs_innet_packets.py      
+├── p4app.json                                 
+├── p4app_in_network.json                      
+└── results/
+    ├── packets_per_epoch.png
+    ├── packets_per_epoch_innet.png
+    └── baseline_vs_innet_packets_per_epoch.png
+```
+
 ## What Is Implemented
 
 ### Baseline path
@@ -216,42 +252,6 @@ Practical takeaway:
 - BMv2/v1model limitations required careful P4 coding (no unsupported control constructs in deparser/checksum pipeline).
 - Runtime reliability issues in host-side packet handling were mitigated using synchronization barrier and conservative send pacing.
 - Integer encoding/decoding was used because P4 data plane does not support floating-point arithmetic.
-
-## Repository Structure
-
-```text
-Federated-Learning-P4/
-├── p4/
-│   ├── federated_learning.p4                  
-│   ├── federated_learning_in_network.p4       
-│   ├── switch-commands.txt                    
-│   └── switch-commands-in-network.txt         
-├── src/
-│   ├── worker/
-│   │   ├── worker.py                          
-│   │   └── worker_in_network.py               
-│   ├── protocol/
-│   │   ├── layers.py                          
-│   │   └── layers_in_network.py               
-│   ├── ml/
-│   │   ├── model.py                           
-│   │   └── data_loader.py                     
-│   ├── config/
-│   │   ├── config.json                        
-│   │   └── config.py                          
-│   └── utils/
-│       ├── network.py                         
-│       └── tracker.py                         
-├── scripts/
-│   ├── plot_packets_per_epoch.py              
-│   └── plot_baseline_vs_innet_packets.py      
-├── p4app.json                                 
-├── p4app_in_network.json                      
-└── results/
-    ├── packets_per_epoch.png
-    ├── packets_per_epoch_innet.png
-    └── baseline_vs_innet_packets_per_epoch.png
-```
 
 ## License
 Educational use for Advanced Computer Networks coursework.
