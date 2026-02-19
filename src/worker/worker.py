@@ -21,7 +21,7 @@ HOSTS = {
     3: {"ip": "10.0.1.3", "mac": "00:00:00:00:01:03", "gw_mac": "00:00:00:00:00:03"},
 }
 
-CHUNK_SIZE = 20
+CHUNK_SIZE = 10
 WEIGHT_SCALE = 10000
 INTER_PACKET_GAP_SEC = 0.001
 # Fixed redundancy keeps packet count equal for every worker in every round.
@@ -111,10 +111,10 @@ class Worker:
                 full_weights = np.concatenate(ordered)
                 self.received_weights[sender_id] = full_weights
                 del self.pending_chunks[sender_id]
-                print(
-                    f"Round {self.current_round + 1}: received full model from worker {sender_id}. "
-                    f"Progress {len(self.received_weights)}/{self.config.protocol.num_workers - 1}"
-                )
+                # print(
+                #     f"Round {self.current_round + 1}: received full model from worker {sender_id}. "
+                #     f"Progress {len(self.received_weights)}/{self.config.protocol.num_workers - 1}"
+                # )
 
             if len(self.received_weights) == self.config.protocol.num_workers - 1:
                 all_weights = [self.model.get_weights()] + list(self.received_weights.values())
@@ -128,10 +128,10 @@ class Worker:
         total_elems = scaled.size
         total_chunks = int(np.ceil(total_elems / CHUNK_SIZE))
         total_packets = (self.config.protocol.num_workers - 1) * total_chunks * REDUNDANCY_FACTOR
-        print(
-            f"Round {self.current_round + 1}: sending {total_chunks} chunks/peer, "
-            f"redundancy={REDUNDANCY_FACTOR}, total_packets={total_packets}"
-        )
+        # print(
+        #     f"Round {self.current_round + 1}: sending {total_chunks} chunks/peer, "
+        #     f"redundancy={REDUNDANCY_FACTOR}, total_packets={total_packets}"
+        # )
 
         for peer_id, peer_info in HOSTS.items():
             if peer_id == self.worker_id:
@@ -184,7 +184,7 @@ class Worker:
         train_acc = self.model.evaluate(X_train, y_train)
         self.results_tracker.add_round_results(self.current_round, loss, train_acc)
         print(f"Round {self.current_round + 1} - Pre-aggregation training accuracy: {train_acc:.4f}")
-        print(f"Round {self.current_round + 1}: waiting {PRE_SEND_BARRIER_SEC}s barrier before send")
+        # print(f"Round {self.current_round + 1}: waiting {PRE_SEND_BARRIER_SEC}s barrier before send")
         time.sleep(PRE_SEND_BARRIER_SEC)
         self.send_model_weights()
         print("Waiting for aggregated model from server...")
